@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.jpg">
-    <Account></Account>
+<!--    <img alt="Vue logo" src="./assets/logo.jpg">-->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Account from "@/views/Account";
+
 
 export default {
   name: 'App',
   components: {
-    Account
+
   }
 }
 </script>
