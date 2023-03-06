@@ -5,13 +5,14 @@ Vue.use(VueRouter);
 
 
 import Account from "@/views/Account";
+import Home from "@/views/Home";
 
 export default new VueRouter({
 
     routes:[
         {
             path:"/",
-            redirect:"/account",
+            component:Home
         },
         {
             path:"/account",
