@@ -1,10 +1,5 @@
 <template>
-  <div>
-    account
-    <button v-on:click="getAccount"></button>
-    <p>{{account.toString()}}</p>
-  </div>
-
+  <router-view></router-view>
 </template>
 
 <script>
@@ -13,7 +8,10 @@ import {getAccountById} from "@/api/account/account";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Account",
+  name: "User",
+  components:{
+
+  },
   data(){
     return{
       account:{"11": 22}
