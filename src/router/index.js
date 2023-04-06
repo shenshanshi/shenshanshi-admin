@@ -48,6 +48,59 @@ export default new VueRouter({
 
 
                     ]
+                },
+                {
+                    path: "/forum",
+                    component: ()=>import('@/views/Home/Forum'),
+                    children:[
+
+                        {
+                            path: "post",
+                            component: ()=>import('@/views/Home/Forum/Post'),
+                        },
+                        {
+                            path:"review",
+                            component: ()=>import('@/views/Home/Forum/Review'),
+
+                        },
+
+                        {
+                            path: "permission",
+                            component: ()=>import('@/views/Home/User/Permission'),
+                        },
+
+
+                    ]
+                },
+                {
+                    path: "/periphery",
+                    component: ()=>import('@/views/Home/Periphery'),
+                    children:[
+
+                        {
+                            path: "goods",
+                            component: ()=>import('@/views/Home/Periphery/Goods'),
+                        },
+                        {
+                            path:"display",
+                            component: ()=>import('@/views/Home/Periphery/Display'),
+
+                        },
+
+
+                    ]
+                },
+                {
+                    path: "/resource",
+                    component: ()=>import('@/views/Home/Resource'),
+                    children:[
+
+                        {
+                            path: "resource",
+                            component: ()=>import('@/views/Home/Resource/Resource'),
+                        }
+
+                    ]
                 }
 
 

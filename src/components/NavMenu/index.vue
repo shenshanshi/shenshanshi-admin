@@ -46,10 +46,8 @@
         <i class="el-icon-s-goods"></i>
         <span>周边管理</span>
       </template>
-      <el-menu-item index="/periphery/1">周边</el-menu-item>
-      <el-menu-item index="/periphery/2">漫展</el-menu-item>
-      <el-menu-item index="/periphery/3">购物车</el-menu-item>
-      <el-menu-item index="/periphery/4">订单</el-menu-item>
+      <el-menu-item index="/periphery/goods">周边</el-menu-item>
+      <el-menu-item index="/periphery/display">漫展</el-menu-item>
     </el-submenu>
 
 
@@ -59,10 +57,7 @@
           <i class="el-icon-s-order"></i>
           <span>资源管理</span>
         </template>
-        <el-menu-item index="/resource/1">周边</el-menu-item>
-        <el-menu-item index="/resource/2">漫展</el-menu-item>
-        <el-menu-item index="/resource/3">购物车</el-menu-item>
-        <el-menu-item index="/resource/4">订单</el-menu-item>
+        <el-menu-item index="/resource/resource">资源</el-menu-item>
       </el-submenu>
 
 

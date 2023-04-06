@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-wapper">
 
     <!--头部状态栏-->
     <div class="home-header">
@@ -53,6 +53,8 @@ export default {
 .home-body-left-wapper{
   width: 201px;
   /*position: fixed;*/
+  position: sticky;
+  top: 0px;
 }
 
 /*}*/

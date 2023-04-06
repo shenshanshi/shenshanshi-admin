@@ -1,5 +1,5 @@
 <template>
-  <div class="user-manage-wapper">
+  <div class="resource-manage-wapper">
     <router-view></router-view>
   </div>
 </template>
@@ -9,14 +9,14 @@
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "User",
+  name: "Resource",
 
 
 }
 </script>
 
 <style scoped>
-.user-manage-wapper{
+.resource-manage-wapper{
   margin: 40px;
 }
 </style>

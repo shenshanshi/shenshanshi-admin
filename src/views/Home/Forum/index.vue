@@ -1,22 +1,18 @@
 <template>
-  <div class="user-manage-wapper">
+  <div class="forum-manage-wapper">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "User",
-
-
+  name: "Forum"
 }
 </script>
 
 <style scoped>
-.user-manage-wapper{
-  margin: 40px;
+.forum-manage-wapper{
+  margin:  40px;
 }
 </style>

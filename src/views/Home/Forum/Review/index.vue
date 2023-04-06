@@ -1,14 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="角色名" prop="roleName">
+      <el-form-item label="评论者id" prop="accountId">
         <el-input
-            v-model="queryParams.roleName"
-            placeholder="请输入角色名"
-            clearable
-            @keyup.enter.native="handleQuery"
+          v-model="queryParams.accountId"
+          placeholder="请输入评论者id"
+          clearable
+          @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -18,84 +19,87 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-            type="primary"
-            plain
-            icon="el-icon-plus"
-            size="mini"
-            @click="handleAdd"
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-            type="success"
-            plain
-            icon="el-icon-edit"
-            size="mini"
-            :disabled="single"
-            @click="handleUpdate"
+          type="success"
+          plain
+          icon="el-icon-edit"
+          size="mini"
+          :disabled="single"
+          @click="handleUpdate"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-            type="danger"
-            plain
-            icon="el-icon-delete"
-            size="mini"
-            :disabled="multiple"
-            @click="handleDelete"
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          :disabled="multiple"
+          @click="handleDelete"
         >删除</el-button>
       </el-col>
-
-<!--      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>-->
     </el-row>
 
-    <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="reviewList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="角色id" align="center" prop="roleId" />-->
-      <el-table-column label="角色名" width="200" align="center" prop="roleName" />
-      <el-table-column label="角色标志" width="200" align="center" prop="roleKey" />
-      <el-table-column label="状态" width="200" align="center" prop="status" />
-      <el-table-column label="备注" width="200" align="center" prop="remark" />
-      <el-table-column label="操作" width="200"  align="center" class-name="small-padding fixed-width">
+<!--      <el-table-column label="评论Id" align="center" prop="reviewId" />-->
+      <el-table-column label="评论者id" width="100" align="center" prop="accountId" />
+      <el-table-column label="评论内容" width="700" align="center" prop="reviewContent" />
+<!--      <el-table-column label="父级id" align="center" prop="parentId" />-->
+      <el-table-column label="点赞" width="100" align="center" prop="like" />
+      <el-table-column label="踩" width="100" align="center" prop="notlike" />
+      <el-table-column label="操作" width="121" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
           >修改</el-button>
           <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.row)"
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
-        @pagination="getList"
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
     />
 
     <!-- 添加或修改【请填写功能名称】对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="角色名" prop="roleName">
-          <el-input v-model="form.roleName" placeholder="请输入角色名" />
+        <el-form-item label="评论者id" prop="accountId">
+          <el-input v-model="form.accountId" placeholder="请输入评论者id" />
         </el-form-item>
-        <el-form-item label="角色标志" prop="roleKey">
-          <el-input v-model="form.roleKey" placeholder="请输入角色标志" />
+        <el-form-item label="评论内容">
+          <el-input :rows="10"
+                    placeholder="请输入内容"
+                    v-model="form.reviewContent"
+                    :min-height="192"/>
         </el-form-item>
-        <el-form-item label="状态" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入状态" />
+
+        <el-form-item label="点赞" prop="like" v-if="chose === 2">
+          <el-input v-model="form.like" placeholder="请输入点赞" />
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+        <el-form-item label="踩" prop="notlike" v-if="chose === 2">
+          <el-input v-model="form.notlike" placeholder="请输入踩" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -107,12 +111,13 @@
 </template>
 
 <script>
-import { listRole, getRole, delRole, addRole, updateRole } from "@/api/account/role"
+import { listReview, getReview, delReview, addReview, updateReview } from "@/api/forum/review";
 import Pagination from "@/components/Pagination";
+import {addPost, updatePost} from "@/api/forum/post";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Role",
+  name: "Review",
   components:{Pagination},
   data() {
     return {
@@ -130,7 +135,7 @@ export default {
       // 总条数
       total: 0,
       // 【请填写功能名称】表格数据
-      roleList: [],
+      reviewList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -139,9 +144,11 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        roleName: null,
-        roleKey: null,
-        status: null,
+        reviewContent: null,
+        accountId: null,
+        parentId: null,
+        like: null,
+        notlike: null
       },
       // 表单参数
       form: {},
@@ -157,8 +164,8 @@ export default {
     /** 查询【请填写功能名称】列表 */
     getList() {
       this.loading = true;
-      listRole(this.queryParams).then(response => {
-        this.roleList = response.rows;
+      listReview(this.queryParams).then(response => {
+        this.reviewList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -171,16 +178,13 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        roleId: null,
-        roleName: null,
-        roleKey: null,
-        status: null,
-        delFlag: null,
-        createBy: null,
+        reviewId: null,
+        reviewContent: null,
         createTime: null,
-        updateBy: null,
-        updateTime: null,
-        remark: null
+        accountId: null,
+        parentId: null,
+        like: null,
+        notlike: null
       };
       // this.resetForm("form");
     },
@@ -192,18 +196,20 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       // this.resetForm("queryForm");
-      this.queryParams ={
+      this.queryParams = {
         pageNum: 1,
         pageSize: 10,
-        roleName: null,
-        roleKey: null,
-        status: null,
+        reviewContent: null,
+        accountId: null,
+        parentId: null,
+        like: null,
+        notlike: null
       }
       this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.roleId)
+      this.ids = selection.map(item => item.reviewId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -212,36 +218,25 @@ export default {
       this.chose = 1;
       this.reset();
       this.open = true;
-      this.title = "添加角色";
+      this.title = "添加评论";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.chose = 2;
+
       this.reset();
-      const roleId = row.roleId || this.ids
-      getRole(roleId).then(response => {
+      const reviewId = row.reviewId || this.ids
+      getReview(reviewId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改角色";
+        this.title = "修改评论";
       });
     },
     /** 提交按钮 */
     submitForm() {
 
       if (this.chose === 1){
-
-        if(!this.form.roleName){
-          this.$message.error('角色名不能为空');
-          return
-        }
-
-        if(!this.form.roleKey){
-          this.$message.error('角色标志不能为空');
-          return
-        }
-
-
-        addRole(this.form).then(response => {
+        addReview(this.form).then(response => {
           this.$message({
             message: '新增成功',
             type: 'success'
@@ -249,28 +244,24 @@ export default {
           this.open = false;
           this.getList();
         });
-      }else {
-        if (this.form.roleId != null) {
-          updateRole(this.form).then(response => {
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            });
-            this.open = false;
-            this.getList();
+      }else{
+
+        updateReview(this.form).then(response => {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
           });
-        }
+          this.open = false;
+          this.getList();
+        });
 
       }
-
 
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const roleIds = row.roleId || this.ids;
-
-
-      delRole(roleIds).then(response =>{
+      const reviewIds = row.reviewId || this.ids;
+      delReview(reviewIds).then(response =>{
             this.$message({
               message: '删除成功',
               type: 'success'
@@ -282,14 +273,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/role/export', {
+      this.download('system/review/export', {
         ...this.queryParams
-      }, `role_${new Date().getTime()}.xlsx`)
+      }, `review_${new Date().getTime()}.xlsx`)
     }
   }
 };
 </script>
-
-<style scoped>
-
-</style>

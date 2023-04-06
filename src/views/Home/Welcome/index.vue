@@ -16,7 +16,7 @@ export default {
 <style scoped>
 
 .welcome{
-  color: #E5041E;
+  color: #4B9EFF;
   font-size: 30px;
   /*width: 100%;*/
   /*text-align: center;*/

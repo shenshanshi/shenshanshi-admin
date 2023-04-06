@@ -1,5 +1,5 @@
 import axios from "axios";
-// import JSONBig from 'json-bigint'
+import JSONBig from 'json-bigint'
 const request = axios.create({
 
     // baseURL:"/api",
@@ -15,6 +15,15 @@ const request = axios.create({
     //         }
     //     }
     // ]
+    transformResponse: [data=>{
+        const json = JSONBig({
+
+            storeAsString:true
+
+        })
+        return json.parse(data)
+
+    } ]
 
 })
 

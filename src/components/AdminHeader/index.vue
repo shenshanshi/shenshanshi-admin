@@ -11,8 +11,8 @@
           </el-col>
           <el-col :span="21" :offset="0"><div class="grid-content bg-purple project-info-wapper">
 
-            <p class="project-name">神山識后台管理系统</p>
-            <p class="project-explain">yunayun毕业设计</p>
+            <p class="project-name">后台管理系统</p>
+<!--            <p class="project-explain">yunayun毕业设计</p>-->
 
           </div></el-col>
         </el-row>
@@ -25,7 +25,7 @@
             <p class="user-name">管理员</p>
           </div>
           <div class="avatar-wapper">
-            <img class="avatar" src="https://foruda.gitee.com/avatar/1677232781716422624/11292066_shenshanshi_1657007114.png">
+            <img class="avatar" :src="account.avatar">
             <div class="logout-wapper">
               <p class="logout" @click="logout">退出</p>
             </div>
@@ -47,16 +47,32 @@
 </template>
 
 <script>
+import {getAccountByToken} from "@/api/account/account";
+import {logout} from "@/api/oauth/oauth";
+
 export default {
   name: "AdminHeader",
   data(){
     return{
-      isLogin:true
+      isLogin:false,
+      account: {}
     }
+  },
+  mounted() {
+    this.getAccount()
   },
   methods:{
     logout(){
-      this.isLogin = false
+      this.isLogin = false;
+      localStorage.removeItem('TOKEN');
+      logout()
+    },
+    async getAccount(){
+      let result = await getAccountByToken();
+      if (result.code === 200){
+        this.account = result.data;
+        this.isLogin = true;
+      }
     }
   }
 }
